@@ -116,10 +116,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/public/register").permitAll() // Allow public access to /auth/public/register
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // Only ADMIN role can access
-                        .requestMatchers("/api/staff/**").hasAnyRole("ADMIN", "STAFF") // ADMIN or STAFF roles
-                        .requestMatchers("/api/hotel/**").authenticated() // Any authenticated user
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/staff/**").hasAnyRole("ADMIN", "STAFF")
+                        .requestMatchers("/api/hotel/**").authenticated()
                         .requestMatchers("/{continental}").permitAll()
                         .anyRequest().authenticated()
                 );
