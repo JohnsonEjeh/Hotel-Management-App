@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableDiscoveryClient
 public class HotelStaffServiceApplication {
-
+    //testing
     public static void main(String[] args) {
         SpringApplication.run(HotelStaffServiceApplication.class, args);
     }
