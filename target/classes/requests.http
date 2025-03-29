@@ -1,0 +1,82 @@
+### Get All Hotels
+GET http://localhost:8080/hotels
+Content-Type: application/json
+
+### Get Hotel by ID
+GET http://localhost:8080/hotels/CNYC1234
+Content-Type: application/json
+
+### Create a Hotel
+POST http://localhost:8080/hotels
+Content-Type: application/json
+
+{
+  "hotelId": "Test1234",
+  "hotelName": "Test Hotel",
+  "starRating": 4
+}
+
+### Update a Hotel
+PUT http://localhost:8080/hotels/Test1234
+Content-Type: application/json
+
+{
+  "hotelName": "Updated Test Hotel",
+  "starRating": 5
+}
+
+### Delete a Hotel
+DELETE http://localhost:8080/hotels/Test1234
+
+### Get All Staff
+GET http://localhost:8080/staff
+Content-Type: application/json
+
+### Get Staff by ID
+GET http://localhost:8080/staff/1
+Content-Type: application/json
+
+### Create Staff
+POST http://localhost:8080/staff
+Content-Type: application/json
+
+{
+  "staffName": "Test Staff",
+  "hotel": {
+    "hotelId": "CNYC1234"
+  },
+  "department": "Cleaning",
+  "performanceRating": 3
+}
+
+### Update Staff
+PUT http://localhost:8080/staff/5
+Content-Type: application/json
+
+{
+  "staffName": "Updated Staff",
+  "hotel": {
+    "hotelId": "CLON5678"
+  },
+  "department": "Management",
+  "performanceRating": 4
+}
+
+### Delete Staff
+DELETE http://localhost:8080/staff/5
+
+### Sort Staff
+GET http://localhost:8080/staff/sorted
+Content-Type: application/json
+
+### Update Performance rating
+PUT http://localhost:8080/staff/3/rating
+Content-Type: application/json
+
+{
+  "performanceRating": 5
+}
+
+### Greetings
+GET http://localhost:8080/api/v1/greetings
+Content-Type: application/json

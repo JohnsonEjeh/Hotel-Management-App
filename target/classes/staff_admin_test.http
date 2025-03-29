@@ -1,0 +1,4 @@
+GET http://localhost:8080/staff/sorted
+Authorization: Basic {{encodedAuth}}
+
+@encodedAuth = {{encode("user:adminpassword")}}

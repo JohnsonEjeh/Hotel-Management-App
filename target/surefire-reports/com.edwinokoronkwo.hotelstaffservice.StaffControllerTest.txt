@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.edwinokoronkwo.hotelstaffservice.StaffControllerTest
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 2.183 s <<< FAILURE! - in com.edwinokoronkwo.hotelstaffservice.StaffControllerTest
+com.edwinokoronkwo.hotelstaffservice.StaffControllerTest.updateStaffRating_shouldReturnUpdatedStaff_whenStaffExists  Time elapsed: 0.029 s  <<< FAILURE!
+java.lang.AssertionError: Status expected:<200> but was:<400>
+	at com.edwinokoronkwo.hotelstaffservice.StaffControllerTest.updateStaffRating_shouldReturnUpdatedStaff_whenStaffExists(StaffControllerTest.java:78)
+
+com.edwinokoronkwo.hotelstaffservice.StaffControllerTest.updateStaffRating_shouldReturnNotFound_whenStaffNotFound  Time elapsed: 0.023 s  <<< FAILURE!
+java.lang.AssertionError: Status expected:<404> but was:<400>
+	at com.edwinokoronkwo.hotelstaffservice.StaffControllerTest.updateStaffRating_shouldReturnNotFound_whenStaffNotFound(StaffControllerTest.java:95)
+
+com.edwinokoronkwo.hotelstaffservice.StaffControllerTest.updateStaff_shouldReturnNotFound_whenStaffNotFound  Time elapsed: 0.037 s  <<< FAILURE!
+java.lang.AssertionError: Status expected:<404> but was:<400>
+	at com.edwinokoronkwo.hotelstaffservice.StaffControllerTest.updateStaff_shouldReturnNotFound_whenStaffNotFound(StaffControllerTest.java:205)
+
