@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${staff.staffId != null} ? 'Edit Staff' : 'Add Staff'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1 th:text="${staff.staffId != null} ? 'Edit Staff' : 'Add Staff'"></h1>
+
+    <form th:action="${staff.staffId != null} ?
+          @{/staff/edit/{id}(id=${staff.staffId})} : @{/staff/add}"
+          th:object="${staff}" method="post">
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" th:field="*{staffName}">
+            <div class="text-danger" th:errors="*{staffName}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Department</label>
+            <select class="form-select" th:field="*{department}">
+                <option value="">Select Department</option>
+                <option th:each="dept : ${departments}"
+                        th:value="${dept}"
+                        th:text="${dept}"></option>
+            </select>
+            <div class="text-danger" th:errors="*{department}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Hotel</label>
+            <select class="form-select" th:field="*{hotel.hotelId}">
+                <option value="">Not assigned</option>
+                <option th:each="hotel : ${hotels}"
+                        th:value="${hotel.hotelId}"
+                        th:text="${hotel.hotelName} + ' (' + ${hotel.starRating} + '★)'"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <span th:text="${staff.staffId != null} ? 'Update' : 'Save'"></span>
+        </button>
+        <a href="/staff" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
