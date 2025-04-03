@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .rating-high { color: #28a745; font-weight: bold; }
+        .rating-warning { color: #dc3545; }
+        .hotel-assignment { font-size: 0.9rem; }
+        .hotel-high-rating { background-color: #fff3cd; }
+        .form-select-sm { width: auto; display: inline-block; }
+        .alert-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <div class="alert-container">
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${warning}" class="alert alert-warning alert-dismissible fade show">
+            <span th:text="${warning}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+
+    <h1>Staff Management</h1>
+
+    <div class="d-flex justify-content-between mb-3">
+        <div>
+            <a href="/staff/add" class="btn btn-primary">Add New Staff</a>
+            <a href="/staff/sorted" class="btn btn-secondary ms-2">Sort by Department</a>
+            <a href="/hotels" class="btn btn-secondary ms-2">View Hotel</a>
+        </div>
+        <div class="text-muted">
+            <small>Ratings: <span class="rating-high">4-5</span> require 4★+ hotels</small>
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Rating</th>
+            <th>Hotel Assignment</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="staff : ${staffList}">
+            <td th:text="${staff.staffId}"></td>
+            <td th:text="${staff.staffName}"></td>
+            <td th:text="${staff.department}"></td>
+            <td>
+                <form th:attr="data-staff-id=${staff.staffId},
+                                 data-current-rating=${staff.performanceRating},
+                                 data-hotel-rating=${staff.hotel?.starRating ?: 0}"
+                      th:action="@{/staff/{id}/rating(id=${staff.staffId})}"
+                      method="post"
+                      class="rating-form"
+                      onsubmit="return validateRatingChange(this)">
+                    <select name="performanceRating"
+                            class="form-select form-select-sm"
+                            th:classappend="${staff.performanceRating >= 4} ? 'rating-high' : ''">
+                        <option th:each="i : ${#numbers.sequence(1,5)}"
+                                th:value="${i}"
+                                th:text="${i}"
+                                th:selected="${i == staff.performanceRating}"
+                                th:classappend="${i >= 4} ? 'rating-high' : ''"></option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                    <span th:if="${staff.hotel != null}"
+                          class="hotel-assignment"
+                          th:classappend="${staff.hotel.starRating >= 4} ? 'hotel-high-rating' : ''">
+                        <span th:text="${staff.hotel.hotelName}"></span>
+                        (<span th:text="${staff.hotel.starRating}"></span>★)
+                        <span th:if="${staff.performanceRating >= 4 and staff.hotel.starRating < 4}"
+                              class="badge bg-danger ms-2">Incompatible</span>
+                    </span>
+                <span th:unless="${staff.hotel != null}" class="text-muted">Not assigned</span>
+            </td>
+            <td>
+                <a th:href="@{/staff/edit/{id}(id=${staff.staffId})}"
+                   class="btn btn-sm btn-warning">Edit</a>
+                <a th:href="@{/staff/delete/{id}(id=${staff.staffId})}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Are you sure you want to delete this staff member?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Validate rating changes before submission
+    function validateRatingChange(form) {
+        const currentRating = parseInt(form.dataset.currentRating);
+        const hotelRating = parseInt(form.dataset.hotelRating);
+        const newRating = parseInt(form.performanceRating.value);
+
+        // Check if rating is being increased to 4+ while assigned to <4 star hotel
+        if (newRating >= 4 && hotelRating > 0 && hotelRating < 4) {
+            if (!confirm('Setting rating to 4+ will unassign this staff from their current hotel. Continue?')) {
+                form.performanceRating.value = currentRating;
+                return false;
+            }
+        }
+
+        // Show loading state
+        form.performanceRating.disabled = true;
+        return true;
+    }
+
+    // Initialize rating selects
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.rating-form select').forEach(select => {
+            select.addEventListener('change', function() {
+                this.form.submit();
+            });
+        });
+
+        // Auto-close alerts after 5 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                new bootstrap.Alert(alert).close();
+            });
+        }, 5000);
+    });
+</script>
+</body>
+</html>
