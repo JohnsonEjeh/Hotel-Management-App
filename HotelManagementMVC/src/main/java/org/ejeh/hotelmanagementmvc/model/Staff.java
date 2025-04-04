@@ -1,12 +1,9 @@
 package org.ejeh.hotelmanagementmvc.model;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
-
 import java.util.List;
-
 public class Staff {
     private Long staffId;
 
@@ -22,6 +19,8 @@ public class Staff {
 
     private Hotel hotel;
 
+    private String hotelId; // Add hotelId as a string field
+
     // Getters and Setters
     public Long getStaffId() { return staffId; }
     public void setStaffId(Long staffId) { this.staffId = staffId; }
@@ -36,11 +35,20 @@ public class Staff {
     public Hotel getHotel() {
         return hotel != null ? hotel : new Hotel(); // Return empty hotel instead of null
     }
+
+    public String getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(String hotelId) {
+        this.hotelId = hotelId;
+    }
+
     public void validateHotelAssignment(List<Hotel> allHotels) {
-        if (hotel != null && hotel.getHotelId() != null) {
+        if (hotelId != null && !hotelId.isEmpty()) {
             // Find the complete hotel details
             Hotel assignedHotel = allHotels.stream()
-                    .filter(h -> h.getHotelId().equals(hotel.getHotelId()))
+                    .filter(h -> h.getHotelId().equals(hotelId))
                     .findFirst()
                     .orElse(null);
 
@@ -53,6 +61,8 @@ public class Staff {
                     throw new IllegalArgumentException(
                             "Staff with rating below 4 cannot be assigned to 4+ star hotels");
                 }
+                //Assign Hotel object.
+                this.hotel = assignedHotel;
             }
         }
     }

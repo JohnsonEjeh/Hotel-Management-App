@@ -10,7 +10,7 @@
     <h1 th:text="${staff.staffId != null} ? 'Edit Staff' : 'Add Staff'"></h1>
 
     <form th:action="${staff.staffId != null} ?
-          @{/staff/edit/{id}(id=${staff.staffId})} : @{/staff/add}"
+      @{/staff/edit/{id}(id=${staff.staffId})} : @{/staff/add}"
           th:object="${staff}" method="post">
 
         <div class="mb-3">
@@ -32,7 +32,7 @@
 
         <div class="mb-3">
             <label class="form-label">Hotel</label>
-            <select class="form-select" th:field="*{hotel.hotelId}">
+            <select class="form-select" th:field="*{hotelId}" id="hotelSelect">
                 <option value="">Not assigned</option>
                 <option th:each="hotel : ${hotels}"
                         th:value="${hotel.hotelId}"
@@ -46,5 +46,21 @@
         <a href="/staff" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+<script>
+    document.getElementById('hotelSelect').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.value) {
+            const hotelName = selectedOption.textContent.split(' (')[0];
+            const starRating = parseInt(selectedOption.textContent.split('(')[1].split('★')[0]);
+
+            document.getElementById('hotelNameInput').value = hotelName;
+            document.getElementById('starRatingInput').value = starRating;
+        } else {
+            document.getElementById('hotelNameInput').value = '';
+            document.getElementById('starRatingInput').value = '';
+        }
+    });
+</script>
 </body>
 </html>
