@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .jumbotron {
+            background-color: #e9ecef;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .btn-primary, .btn-secondary {
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to WaterBnB Manager App</h1>
+        <p class="lead">Manage your hotel operations efficiently.</p>
+        <hr class="my-4">
+        <p>Please login or register to continue.</p>
+        <a href="/login" class="btn btn-primary btn-lg">Login</a>
+        <a href="/register" class="btn btn-secondary btn-lg">Register</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

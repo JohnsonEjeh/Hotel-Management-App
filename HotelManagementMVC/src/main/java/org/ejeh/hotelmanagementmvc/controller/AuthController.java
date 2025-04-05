@@ -20,6 +20,12 @@ public class AuthController {
         this.apiService = apiService;
     }
 
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("pageTitle", "WaterBnB Manager App");
+        return "home";
+    }
+
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("registerRequest", new RegisterRequest());

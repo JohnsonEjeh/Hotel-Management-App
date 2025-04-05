@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableDiscoveryClient
 public class HotelStaffServiceApplication {
 
-    // Testing the git connection
     public static void main(String[] args) {
         SpringApplication.run(HotelStaffServiceApplication.class, args);
     }
